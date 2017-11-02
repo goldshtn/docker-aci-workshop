@@ -6,12 +6,12 @@ In this workshop, you will experiment with Docker containers and Azure Container
 
 ### Prerequisites
 
-You will need an Azure account to use Azure Container Instances. You can sign up for a free trial that gives you $200 in credit for 30 days, and additional free resources without a time limit. If you already have an Azure account, this workshop should not cost you more than $1 to run (and likely a lot less, because Azure Container Instances are billed by the second).
+You will need an Azure account to use Azure Container Instances. You can [sign up for a free trial](https://azure.microsoft.com/en-us/free/) that gives you $200 in credit for 30 days, and additional free resources without a time limit. If you already have an Azure account, this workshop should not cost you more than $1 to run (and likely a lot less, because Azure Container Instances are billed by the second).
 
 If you'd like to use your own computer for the workshop, please install the following:
 
-* Docker Community Edition 17.03 or later
-* Azure CLI
+* [Docker Community Edition](https://www.docker.com/community-edition) 17.03 or later
+* [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) 2.0 or later
 
 Or, you can use the instructor-provided lab machines, hosted in EC2. These machines are running Ubuntu and have Docker and the Azure CLI installed. To provision your own instance, log in to the event link provided by the instructor, enter the classroom token, and follow the instructions.
 
@@ -50,7 +50,7 @@ Server:
  Experimental: true
 ```
 
-Next, let's run a container. The `helloworld` container is an extremely simple and minimal container that prints "Hello, World" and exits. Unlike a virtual machine, it doesn't contain a copy of an operating system and libraries, which makes the image ridiculously small. Try it:
+Next, let's run a container. The `hello-world` container is an extremely simple and minimal container that prints "Hello, World" and exits. Unlike a virtual machine, it doesn't contain a copy of an operating system and libraries, which makes the image ridiculously small. Try it:
 
 ```
 docker run hello-world
