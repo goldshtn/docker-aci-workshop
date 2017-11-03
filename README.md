@@ -154,7 +154,6 @@ Next, build the container image and tag it using the following commands:
 
 ```
 docker build web -t web:v1
-docker tag web:v1 myuser/web:v1
 ```
 
 And finally, run the container in the background to serve the static website:
@@ -176,6 +175,29 @@ Here, the `-p` switch tells Docker to expose TCP port 80 to the host on port 80.
 - - -
 
 ### Task 3: Pushing to Docker Hub
+
+In this task, you will publish the extremely useful container you've built to Docker Hub, one of the public Docker image registries. By publishing the image to Docker Hub, anyone on the Internet will be able to pull this image and use it to launch containers. In many production applications, this is not acceptable: you can host your own private Docker registry, or use one of the publicly available secure hosting services provided by Docker and the major public cloud providers.
+
+First, you will need a Docker ID to push your image. [Sign up](https://cloud.docker.com/) for a Docker ID if you don't already have one.
+
+Now, you will need to tag your container image with your Docker ID. In the following command, replace `YOURUSERNAME` with your Docker username.
+
+```
+docker tag web:v1 YOURUSERNAME/web:v1
+```
+
+Now you're ready to push the image to Docker Hub:
+
+```
+docker push YOURUSERNAME/web:v1
+```
+
+This may take a few minutes, depending on the speed of your Internet connection. The Docker Hub registry should detect, however, that most of the image's layers haven't been modified -- our changes are really limited to a couple of files that we copied into the image. When the push is complete, navigate to [Docker Hub](https://hub.docker.com) and find your new container image under your profile. At this point, you could pull this image from a different machine using the following command
+(you could ask a friend or a colleague to try it out for you):
+
+```
+docker pull YOURUSERNAME/web:v1
+```
 
 - - -
 
