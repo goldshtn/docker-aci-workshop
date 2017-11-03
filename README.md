@@ -114,6 +114,8 @@ print("Hello from containerized Python!")
 print(sys.argv)
 ```
 
+> To create a file, you can use any editor you'd like, or simply use the [example.py](example.py) file instead of writing your own.
+
 To share this file with the container, we will use a _volume_. The container we'll use is python:alpine:
 
 ```
@@ -130,7 +132,7 @@ In this task, you will create a new container images based on an existing one. T
 
 First, run the following commands to create a Dockerfile. This is the set of instructions for creating your container image, based on the Nginx container image.
 
-> If you're not comfortable with the vi editor, feel free to use any other editor, or simply `cp Dockerfile.complete Dockerfile` to use the "school solution" instead of writing it by hand.
+> If you're not comfortable with the vi editor, feel free to use any other editor, or simply `cp Dockerfile.solution Dockerfile` to use the "school solution" instead of writing it by hand.
 
 ```
 cd web
@@ -153,10 +155,12 @@ Let's decipher these instructions. The `FROM` instruction indicates that this co
 Next, build the container image and tag it using the following commands:
 
 ```
-docker build web -t web:v1
+docker build . -t web:v1
 ```
 
-And finally, run the container in the background to serve the static website:
+In the above command, the `.` parameter is the _build context_ -- the directory that contains the Dockerfile and additional files that you want to add to the container image. The `-t` switch takes a tag, which is like a name for the container image, except an image can have multiple tags.
+
+Finally, run the container in the background to serve the static website:
 
 ```
 docker run --rm -d --name web web:v1
@@ -171,6 +175,8 @@ docker run --rm -d --name web -p 80:80 web:v1
 ```
 
 Here, the `-p` switch tells Docker to expose TCP port 80 to the host on port 80. Now you can navigate to `http://localhost` in a browser on your host and see the static website we put in the Nginx container!
+
+> If you already have something listening on port 80 on your machine, there might be a conflict and Nginx won't be able to serve requests. In that case, just modify the `-p 80:80` directive to use some other port. Note that the first port number is the port _within the container_, and the second port number is the port on the host.
 
 - - -
 
@@ -202,6 +208,26 @@ docker pull YOURUSERNAME/web:v1
 - - -
 
 ### Task 4: Creating an Azure Container Instance
+
+In this task, things get really interesting -- once we have our container image publicly available on a Docker registry, we can use one of many container orchestration services to launch containers from that image. These services include Amazon ECS, Google Kubernetes, Docker Swarm, Azure Container Service, and many others. However, many of these services require mastering a lot of extra concepts before you can launch a container. Just as an example, Kubernetes has the concepts of pod,
+service, replica set, and deployment that you need to understand to use it effectively. Instead, we will use a new service called Azure Container Instances: it is geared towards simpler use cases when you want to launch one, two, or a handful of containers without worrying too much about scaling, managing, and deploying them.
+
+First, please make sure you have an Azure account. If not, see the Prerequisites section above to register for an account and download the Azure CLI. Then, open a terminal and log in to your Azure account by running the following command:
+
+```
+az login
+```
+
+You will need to navigate to the [Azure login page](https://aka.ms/devicelogin) and enter the token provided by `az login`. A few seconds later, you will be logged in to your account and will be able to use the Azure CLI commands.
+
+The commands for managing Azure Container Instances are all sub-commands of `az container`. Try `az container --help` to see which commands are available. You will notice that creating a container requires a _container group_ -- but that's almost all there's to it. Additionally, containers need to know which region you want them to be in: Azure has numerous regions all over the world. To specify the region for your container group, you create a _resource group_, which is tied to a specific
+region.
+
+Begin by creating a resource group for your containers:
+
+```
+az group create ...
+```
 
 - - -
 
