@@ -226,7 +226,41 @@ region.
 Begin by creating a resource group for your containers:
 
 ```
-az group create ...
+az group create --name acigroup --location westeurope
+```
+
+Next, you can create a container (really, a container group with a single container) from the previously-published container image:
+
+```
+az container create --name aciweb --image YOURUSERNAME/web:v1 -g acigroup --ip-address public
+```
+
+In the preceding command, `--ip-address public` indicates that you want the container's ports to be exposed and for a public IP address to be associated with it, so that you can access it over the Internet. This command may take a few moments, because a private virtual machine is being spinned up to run your container. You can use the following command to see its status:
+
+```
+az container show --name aciweb -g acigroup
+```
+
+The output may look something like the following:
+
+```
+<<TODO>>
+```
+
+When the container moves to the "Running" state, you can navigate to the IP address displayed in the output of the previous command in a web browser. Voila, your container is serving requests and is available on the public Internet!
+
+> By default, the `az container create` command exposes port 80 from the container to port 80 on the host. This can be customized by using the `--port` switch, or by creating the container from an Azure Resource Management template, which is outside the scope of this workshop.
+
+For troubleshooting purposes, it is often useful to extract logs from your container. Run the following command to list the logs from Nginx:
+
+```
+az container logs --name aciweb -g acigroup
+```
+
+Finally, when you're done, to avoid any charges from being incurred to your Azure account, make sure to delete the container with the following command:
+
+```
+az container delete --name aciweb -g acigroup
 ```
 
 - - -
@@ -235,7 +269,17 @@ az group create ...
 
 If you're done with the above tasks and would like to continue experimenting, here are some ideas (some of them might take a few hours!):
 
-* Create a dynamic website, or an API, and put in in a Docker container. For example, you can use Flask with Python or Express with Node.js. Package that container and run it in Azure Container Instances.
+* Create a dynamic website, or an API, and put in in a Docker container. For example, you can use Flask with Python or Express with Node.js. Package that container and run it in Azure Container Instances. Here's an example of a trivial Node.js server that you could use (also in [example.js](example.js)):
+
+```javascript
+var http = require('http');
+
+var server = http.createServer(function (req, res) {
+    res.end(200, 'Hello, world!');
+});
+
+server.listen(80);
+```
 
 * <<TODO>> Redis cache container linked to the original
 
