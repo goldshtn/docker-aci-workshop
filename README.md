@@ -244,10 +244,102 @@ az container show --name aciweb -g acigroup
 The output may look something like the following:
 
 ```
-<<TODO>>
+{
+  "containers": [
+    {
+      "command": null,
+      "environmentVariables": [],
+      "image": "goldshtn/web:v1",
+      "instanceView": {
+        "currentState": {
+          "detailStatus": "",
+          "exitCode": null,
+          "finishTime": null,
+          "startTime": "2017-11-03T20:09:49+00:00",
+          "state": "Running"
+        },
+        "events": [
+          {
+            "count": 1,
+            "firstTimestamp": "2017-11-03T20:09:44+00:00",
+            "lastTimestamp": "2017-11-03T20:09:44+00:00",
+            "message": "pulling image \"goldshtn/web:v1\"",
+            "name": "Pulling",
+            "type": "Normal"
+          },
+          {
+            "count": 1,
+            "firstTimestamp": "2017-11-03T20:09:49+00:00",
+            "lastTimestamp": "2017-11-03T20:09:49+00:00",
+            "message": "Successfully pulled image \"goldshtn/web:v1\"",
+            "name": "Pulled",
+            "type": "Normal"
+          },
+          {
+            "count": 1,
+            "firstTimestamp": "2017-11-03T20:09:49+00:00",
+            "lastTimestamp": "2017-11-03T20:09:49+00:00",
+            "message": "Created container with id fb7c5041bb39176d57890438fcddb4546063ade59c18db0248f4c841b8f4f90a",
+            "name": "Created",
+            "type": "Normal"
+          },
+          {
+            "count": 1,
+            "firstTimestamp": "2017-11-03T20:09:49+00:00",
+            "lastTimestamp": "2017-11-03T20:09:49+00:00",
+            "message": "Started container with id fb7c5041bb39176d57890438fcddb4546063ade59c18db0248f4c841b8f4f90a",
+            "name": "Started",
+            "type": "Normal"
+          }
+        ],
+        "previousState": null,
+        "restartCount": 0
+      },
+      "name": "web",
+      "ports": [
+        {
+          "port": 80,
+          "protocol": null
+        }
+      ],
+      "resources": {
+        "limits": null,
+        "requests": {
+          "cpu": 1.0,
+          "memoryInGb": 1.5
+        }
+      },
+      "volumeMounts": null
+    }
+  ],
+  "id": "/subscriptions/1209ae93-342e-4ce4-ae01-2b4f7305e6ac/resourceGroups/aci-westeurope/providers/Microsoft.ContainerInstance/containerGroups/web",
+  "imageRegistryCredentials": null,
+  "instanceView": {
+    "events": [],
+    "state": "Running"
+  },
+  "ipAddress": {
+    "ip": "52.233.139.19",
+    "ports": [
+      {
+        "port": 80,
+        "protocol": "TCP"
+      }
+    ]
+  },
+  "location": "westeurope",
+  "name": "web",
+  "osType": "Linux",
+  "provisioningState": "Succeeded",
+  "resourceGroup": "aci-westeurope",
+  "restartPolicy": null,
+  "tags": null,
+  "type": "Microsoft.ContainerInstance/containerGroups",
+  "volumes": null
+}
 ```
 
-When the container moves to the "Running" state, you can navigate to the IP address displayed in the output of the previous command in a web browser. Voila, your container is serving requests and is available on the public Internet!
+When the container instance moves to the "Running" state, you can navigate to the IP address displayed in the output of the previous command in a web browser. Voila, your container is serving requests and is available on the public Internet!
 
 > By default, the `az container create` command exposes port 80 from the container to port 80 on the host. This can be customized by using the `--port` switch, or by creating the container from an Azure Resource Management template, which is outside the scope of this workshop.
 
