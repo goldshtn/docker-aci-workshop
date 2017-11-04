@@ -373,16 +373,17 @@ var server = http.createServer(function (req, res) {
 server.listen(80);
 ```
 
-* <<TODO>> Redis cache container linked to the original
+* Create another container running the Redis cache, and link it to the original container so that the web application can access the Redis cache. If you're running the two containers locally with Docker, you can use the [`--link` switch](https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/) to link the two containers, or create a Docker network. If you want to launch the two containers in Azure Container Instances, you'll need to use an [ARM deployment
+  template](https://docs.microsoft.com/en-us/azure/container-instances/container-instances-multi-container-group) (deploying a container group with more than one container is not supported
+  from the CLI).
 
-* <<TODO>> MySQL database container linked to the original
+* Explore the scaling options for Azure Container Instances. Clearly, you could easily create multiple instances of the same container -- but you'd need the clients to perform the load balancing. What are the built-in options for load balancing traffic between multiple containers in Azure Container Instances?
 
-* <<TODO>> Scaling ACI (multiple containers of the same type with a load balancer?)
+* Azure Container Instances does not attempt to be a full-blown container orchestration solution. It doesn't have features such as scheduling, monitoring, load balancing, daemons, and many other features a container orchestration can provide. Explore either [Docker Swarm](https://docs.docker.com/engine/swarm/) or [Azure Managed Kubernetes Service](https://docs.microsoft.com/en-us/azure/aks/), and try using them to schedule your containers.
 
-* <<TODO>> Exploring Docker Swarm or Kubernetes (on ACS or AKS)
+* One of the features offered by container runtimes is placing quotas on container resource usage (on Linux, this is implemented using control groups). For example, Docker makes it easy to place [CPU and memory limits](https://docs.docker.com/engine/admin/resource_constraints/) on containers. Try this out: launch a container with only a few megabytes of memory and see what happens; or, launch a container with only 0.1 of a CPU and see how its performance degrades.
 
-* <<TODO> Experiment with container resource limits (--cpus, --memory)
-
-* <<TODO>> Experiment with Docker Compose
+* [Docker Compose](https://docs.docker.com/compose/overview/) is a tool for creating multi-container builds and deployments. You can specify multiple container images, volumes, ports, and other instructions in a single file, and have Docker Compose bring all the containers up or down in a single command. Explore Docker Compose, and create a .yml file that deploys our web application container, a Redis cache, and a MySQL database -- ideally, linking them so you can use Redis and MySQL
+  from the web application.
 
 - - -
